@@ -6,17 +6,15 @@ import java.sql.*;
 
 public class UserDao {
 
-    // 중복되는 코드를 메소드로 추출
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://ec2-3-38-40-246.ap-northeast-2.compute.amazonaws.com/springbook", "root", "password");
-        return c;
+    private ConnectionMaker connectionMaker;
+
+    public UserDao() {
+        this.connectionMaker = new ConnectionMaker();
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
         // 호출하여 사용
-        Connection c = getConnection();
+        Connection c = connectionMaker.makeConnection();
 
         // 값을 insert(추가)하는 쿼리문 작성
         PreparedStatement ps = c.prepareStatement
@@ -32,7 +30,7 @@ public class UserDao {
     }
 
     public User get(String id) throws SQLException, ClassNotFoundException {
-        Connection c = getConnection();
+        Connection c = connectionMaker.makeConnection();
 
         // 값을 뽑아오는 쿼리문 작성
         PreparedStatement ps = c.prepareStatement
