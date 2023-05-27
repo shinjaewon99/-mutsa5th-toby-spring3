@@ -13,7 +13,8 @@ class UserDaoTest {
 
     @Test
     void addName() throws SQLException, ClassNotFoundException {
-        UserDao userDao = new UserDao(new NConnectionMaker());
+        DaoFactory daoFactory = new DaoFactory();
+        UserDao userDao = daoFactory.userDao();
         User user = new User();
         user.setId("0");
         user.setName("jaewon");
@@ -24,7 +25,8 @@ class UserDaoTest {
 
     @Test
     void getName() throws SQLException, ClassNotFoundException {
-        UserDao userDao = new UserDao(new NConnectionMaker());
+        DaoFactory daoFactory = new DaoFactory();
+        UserDao userDao = daoFactory.userDao();
         User result = userDao.get("0");
 
         System.out.println(result.getId());
